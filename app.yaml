@@ -1,0 +1,6 @@
+name: Local Wheater Station - Arduino UNO Q
+icon: ☀️
+description: A local weather station using Arduino UNO Q
+bricks:
+  - arduino:dbstorage_tsstore
+  - arduino:web_ui

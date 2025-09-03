@@ -1,0 +1,164 @@
+<!--
+SPDX-FileCopyrightText: Copyright (C) 2025 ARDUINO SA <http://www.arduino.cc>
+
+SPDX-License-Identifier: MPL-2.0
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arduino Weather Station Demo</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="libs/socket.io.min.js"></script>
+    <script src="app.js"></script>
+</head>
+<body>
+<div class="app-container">
+    <div class="header">
+        <h1 class="arduino-text">Arduino Weather Station Demo</h1>
+        <img class="arduino-logo" src="./img/RGB-Arduino-Logo_Color Inline Loop.svg" alt="Arduino Logo">
+    </div>
+
+    <div class="main-content">
+        <div id="live" class="tab-content active">
+            <div class="top-row">
+                <div class="container">
+                    <div class="graph-header">
+                        <span>Temperature</span>
+                    </div>
+                    <div class="graph-real-time-value">
+                        <img src="./img/temperature.svg" class="header-icon" alt="Temperature icon" />
+                        <span id="temperature-live-value" class="header-value"></span>
+                    </div>
+                    <canvas id="temperature-live-chart"></canvas>
+                    <div id="temperature-live-chart-nodata" class="nodata-container">
+                        <img src="./img/nodata.svg" class="nodata-img">
+                        <span class="no-data">No data</span>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="graph-header">
+                        <span>Humidity</span>
+                    </div>
+                    <div class="graph-real-time-value">
+                        <img src="./img/humidity.svg" class="header-icon" alt="Humidity icon" />
+                        <span id="humidity-live-value" class="header-value"></span>
+                    </div>
+                    <canvas id="humidity-live-chart"></canvas>
+                    <div id="humidity-live-chart-nodata" class="nodata-container">
+                        <img src="./img/nodata.svg" class="nodata-img">
+                        <span class="no-data">No data</span>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="graph-header">
+                        <span>Pressure</span>
+                    </div>
+                    <div class="graph-real-time-value">
+                        <img src="./img/pressure-top.svg" class="header-icon" alt="Pressure icon" />
+                        <span id="pressure-live-value" class="header-value"></span>
+                    </div>
+                    <canvas id="pressure-live-chart"></canvas>
+                    <div id="pressure-live-chart-nodata" class="nodata-container">
+                        <img src="./img/nodata.svg" class="nodata-img">
+                        <span class="no-data">No data</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="derived-row">
+                <!-- Light Level -->
+                <div class="custom-graph-container">
+                    <div class="graph-header">
+                        <span>Light Level</span>
+                    </div>
+                    <div id="lux-live-content">
+                        <div class="sensor-value-display">
+                            <div class="sensor-icon-display">
+                                <img id="lux-live-icon" class="light-icon" src="" alt="Light level status" />
+                            </div>
+                            <span id="lux-live-value">0</span> lux
+                        </div>
+                    </div>
+                    <div id="lux-live-nodata" class="nodata-small" style="display: none;">
+                        <img src="./img/nodata.svg" class="nodata-img">
+                        <span class="no-data">No data</span>
+                    </div>
+                </div>
+
+                <!-- Rain Detection -->
+                <div class="custom-graph-container">
+                    <div class="graph-header">
+                        <span>Rain Detection</span>
+                    </div>
+                    <div id="raindrop-live-content">
+                        <div class="rain-icon-display">
+                            <img id="raindrop-live-icon" class="rain-icon" src="" alt="Rain status" />
+                            <span id="raindrop-live-text" class="rain-text"></span>
+                        </div>
+                    </div>
+                    <div id="raindrop-live-nodata" class="nodata-small" style="display: none;">
+                        <img src="./img/nodata.svg" class="nodata-img">
+                        <span class="no-data">No data</span>
+                    </div>
+                </div>
+
+                <!-- UV Index -->
+                <div class="custom-graph-container">
+                    <div class="graph-header">
+                        <span>UV Index</span>
+                    </div>
+                    <div id="uv_index-live-content">
+                        <div class="sensor-value-display">
+                            <img id="uv_index-live-icon" class="uv-icon" src="" alt="UV status" />
+                            <span id="uv_index-live-value">0</span> UV
+                        </div>
+                    </div>
+                    <div id="uv_index-live-nodata" class="nodata-small" style="display: none;">
+                        <img src="./img/nodata.svg" class="nodata-img">
+                        <span class="no-data">No data</span>
+                    </div>
+                </div>
+            </div>
+            <div class="derived-row">
+                <div class="container derived-container air-quality-combined-chart">
+                    <div class="air-quality-section">
+                        <div class="graph-header">
+                            <span>Air Quality</span>
+                        </div>
+                        <div id="air-quality-live-content">
+                            <div class="air-quality-centered">
+                                <div class="air-quality-display">
+                                    <img id="air-quality-icon-live" class="air-quality-icon-svg" src="" alt="Air quality status" />
+                                    <span id="air-quality-label-live" class="air-quality-label"></span>
+                                </div>
+                                <div class="air-quality-values">
+                                    <span id="tvoc-value-live"></span>
+                                    <span id="eco2-value-live"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="air-quality-live-nodata" class="nodata-small" style="display: none;">
+                            <img src="./img/nodata.svg" class="nodata-img">
+                            <span class="no-data">No data</span>
+                        </div>
+                    </div>
+                    <div class="chart-section">
+                        <canvas id="air-quality-live-chart"></canvas>
+                        <div id="air-quality-live-chart-nodata" class="nodata-container">
+                            <img src="./img/nodata.svg" class="nodata-img">
+                            <span class="no-data">No data</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="error-container" class="error-message" style="display: none;"></div>
+</div>
+
+</body>
+</html>

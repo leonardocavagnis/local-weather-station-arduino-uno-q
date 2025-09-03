@@ -1,0 +1,6 @@
+# Ignora cache
+.cache/
+.DS_store
+
+# Ignora i dati di Influx
+data/

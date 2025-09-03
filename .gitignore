@@ -1,0 +1,5 @@
+# Ignora cache
+.cache/
+
+# Ignora i dati di Influx
+data/

@@ -1,0 +1,6 @@
+name: Wheater Station Demo - Launch
+icon: ⛈️
+description: A simple weather station demo using Arduino UNO Q
+bricks:
+  - arduino:dbstorage_tsstore
+  - arduino:web_ui

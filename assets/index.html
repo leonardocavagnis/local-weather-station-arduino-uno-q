@@ -9,7 +9,7 @@ SPDX-License-Identifier: MPL-2.0
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home climate monitoring and storage</title>
+    <title>Arduino Weather Station Demo</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="libs/socket.io.min.js"></script>
@@ -18,159 +18,16 @@ SPDX-License-Identifier: MPL-2.0
 <body>
 <div class="app-container">
     <div class="header">
-        <h1 class="arduino-text">Home climate monitoring and storage</h1>
+        <h1 class="arduino-text">Arduino Weather Station Demo</h1>
         <img class="arduino-logo" src="./img/RGB-Arduino-Logo_Color Inline Loop.svg" alt="Arduino Logo">
     </div>
 
-    <div class="tabs">
-        <button class="tab" data-tab="historical-1d">1 D</button>
-        <button class="tab" data-tab="historical-1h">1 h</button>
-        <button class="tab-with-circle tab active" data-tab="live">
-            <span id="live-circle"></span>
-            Live
-        </button>
-    </div>
-
     <div class="main-content">
-        <div id="historical-1d" class="tab-content">
-            <div class="top-row">
-                <div class="container">
-                    <div class="graph-header">
-                        <span>Temperature (°C)</span>
-                        <img src="./img/info.svg" alt="Info" class="info-btn temp"/>
-                        <div class="popover"></div>
-                    </div>
-                    <canvas id="temperature-1d-chart"></canvas>
-                    <div id="temperature-1d-chart-nodata" class="nodata-container">
-                        <img src="./img/nodata.svg" class="nodata-img">
-                        <span class="no-data">No data</span>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="graph-header">
-                        <span>Humidity (%)</span>
-                        <img src="./img/info.svg" alt="Info" class="info-btn humidity"/>
-                        <div class="popover"></div>
-                    </div>
-                    <canvas id="humidity-1d-chart"></canvas>
-                    <div id="humidity-1d-chart-nodata" class="nodata-container">
-                        <img src="./img/nodata.svg" class="nodata-img">
-                        <span class="no-data">No data</span>
-                    </div>
-                </div>
-            </div>
-            <div class="derived-row">
-                <div class="container derived-container">
-                    <div class="graph-header">
-                        <span>Dew Point (°C)</span>
-                        <img src="./img/info.svg" alt="Info" class="info-btn dew"/>
-                        <div class="popover"></div>
-                    </div>
-                    <canvas id="dew_point-1d-chart"></canvas>
-                    <div id="dew_point-1d-chart-nodata" class="nodata-container">
-                        <img src="./img/nodata.svg" class="nodata-img">
-                        <span class="no-data">No data</span>
-                    </div>
-                </div>
-                <div class="container derived-container">
-                    <div class="graph-header">
-                        <span>Heat Index (°C)</span>
-                        <img src="./img/info.svg" alt="Info" class="info-btn heat"/>
-                        <div class="popover"></div>
-                    </div>
-                    <canvas id="heat_index-1d-chart"></canvas>
-                    <div id="heat_index-1d-chart-nodata" class="nodata-container">
-                        <img src="./img/nodata.svg" class="nodata-img">
-                        <span class="no-data">No data</span>
-                    </div>
-                </div>
-                <div class="container derived-container">
-                    <div class="graph-header">
-                        <span>Absolute Humidity (g/m³)</span>
-                        <img src="./img/info.svg" alt="Info" class="info-btn abs"/>
-                        <div class="popover"></div>
-                    </div>
-                    <canvas id="absolute_humidity-1d-chart"></canvas>
-                    <div id="absolute_humidity-1d-chart-nodata" class="nodata-container">
-                        <img src="./img/nodata.svg" class="nodata-img">
-                        <span class="no-data">No data</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="historical-1h" class="tab-content">
-            <div class="top-row">
-                <div class="container">
-                    <div class="graph-header">
-                        <span>Temperature (°C)</span>
-                        <img src="./img/info.svg" alt="Info" class="info-btn temp"/>
-                        <div class="popover"></div>
-                    </div>
-                    <canvas id="temperature-1h-chart"></canvas>
-                    <div id="temperature-1h-chart-nodata" class="nodata-container">
-                        <img src="./img/nodata.svg" class="nodata-img">
-                        <span class="no-data">No data</span>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="graph-header">
-                        <span>Humidity (%)</span>
-                        <img src="./img/info.svg" alt="Info" class="info-btn humidity"/>
-                        <div class="popover"></div>
-                    </div>
-                    <canvas id="humidity-1h-chart"></canvas>
-                    <div id="humidity-1h-chart-nodata" class="nodata-container">
-                        <img src="./img/nodata.svg" class="nodata-img">
-                        <span class="no-data">No data</span>
-                    </div>
-                </div>
-            </div>
-            <div class="derived-row">
-                <div class="container derived-container">
-                    <div class="graph-header">
-                        <span>Dew Point (°C)</span>
-                        <img src="./img/info.svg" alt="Info" class="info-btn dew"/>
-                        <div class="popover"></div>
-                    </div>
-                    <canvas id="dew_point-1h-chart"></canvas>
-                    <div id="dew_point-1h-chart-nodata" class="nodata-container">
-                        <img src="./img/nodata.svg" class="nodata-img">
-                        <span class="no-data">No data</span>
-                    </div>
-                </div>
-                <div class="container derived-container">
-                    <div class="graph-header">
-                        <span>Heat Index (°C)</span>
-                        <img src="./img/info.svg" alt="Info" class="info-btn heat"/>
-                        <div class="popover"></div>
-                    </div>
-                    <canvas id="heat_index-1h-chart"></canvas>
-                    <div id="heat_index-1h-chart-nodata" class="nodata-container">
-                        <img src="./img/nodata.svg" class="nodata-img">
-                        <span class="no-data">No data</span>
-                    </div>
-                </div>
-                <div class="container derived-container">
-                    <div class="graph-header">
-                        <span>Absolute Humidity (g/m³)</span>
-                        <img src="./img/info.svg" alt="Info" class="info-btn abs"/>
-                        <div class="popover"></div>
-                    </div>
-                    <canvas id="absolute_humidity-1h-chart"></canvas>
-                    <div id="absolute_humidity-1h-chart-nodata" class="nodata-container">
-                        <img src="./img/nodata.svg" class="nodata-img">
-                        <span class="no-data">No data</span>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div id="live" class="tab-content active">
             <div class="top-row">
                 <div class="container">
                     <div class="graph-header">
                         <span>Temperature (°C)</span>
-                        <img src="./img/info.svg" alt="Info" class="info-btn temp"/>
-                        <div class="popover"></div>
                     </div>
                     <canvas id="temperature-live-chart"></canvas>
                     <div id="temperature-live-chart-nodata" class="nodata-container">
@@ -181,8 +38,6 @@ SPDX-License-Identifier: MPL-2.0
                 <div class="container">
                     <div class="graph-header">
                         <span>Humidity (%)</span>
-                        <img src="./img/info.svg" alt="Info" class="info-btn humidity"/>
-                        <div class="popover"></div>
                     </div>
                     <canvas id="humidity-live-chart"></canvas>
                     <div id="humidity-live-chart-nodata" class="nodata-container">
@@ -190,42 +45,82 @@ SPDX-License-Identifier: MPL-2.0
                         <span class="no-data">No data</span>
                     </div>
                 </div>
+                <div class="container">
+                    <div class="graph-header">
+                        <span>Pressure (hPa)</span>
+                        <span id="pressure-live-trend-icon" class="pressure-trend-icon"></span>
+                    </div>
+                    <canvas id="pressure-live-chart"></canvas>
+                    <div id="pressure-live-chart-nodata" class="nodata-container">
+                        <img src="./img/nodata.svg" class="nodata-img">
+                        <span class="no-data">No data</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="derived-row">
+                <!-- Light Level -->
+                <div class="custom-graph-container">
+                    <div class="graph-header">
+                        <span>Light Level</span>
+                    </div>
+                    <div class="sensor-value-display">
+                        <div class="sensor-icon-display">
+                            <span id="lux-live-icon" class="dynamic-icon"></span>
+                        </div>
+                        <span id="lux-live-value">0</span> lux
+                    </div>
+                    <div class="progress-bar-container">
+                        <progress id="lux-live-progress" value="0" max="20000"></progress>
+                    </div>
+
+                </div>
+
+                <!-- Rain Detection -->
+                <div class="custom-graph-container">
+                    <div class="graph-header">
+                        <span>Rain Detection</span>
+                    </div>
+                    <div class="rain-icon-display">
+                        <span id="raindrop-live-icon" class="dynamic-icon"></span>
+                    </div>
+                </div>
+
+                <!-- UV Index -->
+                <div class="custom-graph-container">
+                    <div class="graph-header">
+                        <span>UV Index</span>
+                    </div>
+                    <div class="sensor-value-display">
+                        <span id="uv_index-live-icon" class="dynamic-icon"></span>
+                        <span id="uv_index-live-value">0</span> UV
+                    </div>
+                    <div class="progress-bar-container">
+                        <progress id="uv_index-live-progress" value="0" max="10"></progress>
+                    </div>
+
+                </div>
             </div>
             <div class="derived-row">
-                <div class="container derived-container">
-                    <div class="graph-header">
-                        <span>Dew Point (°C)</span>
-                        <img src="./img/info.svg" alt="Info" class="info-btn dew"/>
-                        <div class="popover"></div>
+                <div class="container derived-container air-quality-combined-chart">
+                    <div class="air-quality-section">
+                        <div class="graph-header">
+                            <span>Air Quality</span>
+                        </div>
+                        <div class="air-quality-display">
+                            <span id="air-quality-icon-live" class="air-quality-icon"></span>
+                            <span id="air-quality-label-live" class="air-quality-label"></span>
+                        </div>
                     </div>
-                    <canvas id="dew_point-live-chart"></canvas>
-                    <div id="dew_point-live-chart-nodata" class="nodata-container">
-                        <img src="./img/nodata.svg" class="nodata-img">
-                        <span class="no-data">No data</span>
-                    </div>
-                </div>
-                <div class="container derived-container">
-                    <div class="graph-header">
-                        <span>Heat Index (°C)</span>
-                        <img src="./img/info.svg" alt="Info" class="info-btn heat"/>
-                        <div class="popover"></div>
-                    </div>
-                    <canvas id="heat_index-live-chart"></canvas>
-                    <div id="heat_index-live-chart-nodata" class="nodata-container">
-                        <img src="./img/nodata.svg" class="nodata-img">
-                        <span class="no-data">No data</span>
-                    </div>
-                </div>
-                <div class="container derived-container">
-                    <div class="graph-header">
-                        <span>Absolute Humidity (g/m³)</span>
-                        <img src="./img/info.svg" alt="Info" class="info-btn abs"/>
-                        <div class="popover"></div>
-                    </div>
-                    <canvas id="absolute_humidity-live-chart"></canvas>
-                    <div id="absolute_humidity-live-chart-nodata" class="nodata-container">
-                        <img src="./img/nodata.svg" class="nodata-img">
-                        <span class="no-data">No data</span>
+                    <div class="chart-section">
+                        <div class="graph-header">
+                            <span>TVOC (ppb) & eCO2 (ppm)</span>
+                        </div>
+                        <canvas id="air-quality-live-chart"></canvas>
+                        <div id="air-quality-live-chart-nodata" class="nodata-container">
+                            <img src="./img/nodata.svg" class="nodata-img">
+                            <span class="no-data">No data</span>
+                        </div>
                     </div>
                 </div>
             </div>

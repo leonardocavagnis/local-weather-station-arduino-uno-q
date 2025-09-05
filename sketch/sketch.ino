@@ -29,6 +29,14 @@ void loop() {
     // Read humidity percentage from the sensor
     float humidity = thermo.getHumidity();
 
-    Bridge.notify("record_sensor_samples", celsius, humidity);
+    // TODO: Read from your other sensors here
+    float pressure = 0.0; // Placeholder for pressure in hPa
+    float lux = 0.0; // Placeholder for light intensity in lux
+    int raindrop = 0; // Placeholder for raindrop sensor
+    float uv_index = 0.0; // Placeholder for UV index
+    float tvoc = 0.0; // Placeholder for TVOC in ppb
+    float eco2 = 0.0; // Placeholder for eCO2 in ppm
+
+    Bridge.notify("record_sensor_samples", celsius, humidity, pressure, lux, raindrop, uv_index, tvoc, eco2);
   }
 }

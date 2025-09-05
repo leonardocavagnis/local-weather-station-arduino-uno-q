@@ -21,7 +21,8 @@ body {
 }
 
 .app-container {
-    max-width: 1300px;
+    max-width: 1240px;
+    max-height: 720px;
 }
 
 .main-content {
@@ -35,7 +36,7 @@ body {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    margin-bottom: 24px;
+    margin-bottom: 12px;
     box-sizing: border-box;
 }
 
@@ -43,12 +44,10 @@ body {
 
 .container {
     display: flex;
-    width: 550px;
-    min-width: 550px;
     padding: 16px;
     flex-direction: column;
     justify-content: center;
-    gap: 16px;
+    gap: 8px;
     border-radius: 8px;
     background: #ECF1F1;
     position: relative;
@@ -71,7 +70,7 @@ h1, h2 {
 }
 
 .arduino-logo {
-    height: 32px;
+    height: 24px;
     width: auto;
 }
 
@@ -79,92 +78,14 @@ h1, h2 {
  * Styles for specific components required by Data Logger
  */
 
-.tabs {
-    display: inline-flex;
-    width: auto;
-    justify-content: center;
-    gap: 8px;
-    align-self: stretch;
-    border-radius: 8px;
-    background: #ECF1F1;
-    margin-bottom: 1em;
-    overflow: hidden;
-    height: 27px;
-    border: 1px solid #C9D2D2;
-    padding: 2px;
-}
-
-.tab {
-    color: #2C353A;
-    text-align: center;
-    font-family: "Open Sans", serif;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 160%;
-    letter-spacing: 0.14px;
-}
-
-.tab,
-.tab.active {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 148px;
-    height: 27px;
-    gap: 8px;
-    background: transparent;
-    border: none;
-    border-radius: 0;
-}
-
-.tab.active {
-    background: #FFF;
-    color: #008184;
-    text-align: center;
-    font-family: "Open Sans", serif;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 160%;
-    border-radius: 6px;
-    border: 1px solid #C9D2D2;
-}
-
 .tab-content {
     display: none;
-    gap: 24px;
+    gap: 16px;
     align-items: flex-start; /* prevent children from stretching to full height */
     flex-wrap: wrap; /* allow children to wrap to next line */
 }
 .tab-content.active {
     display: flex;
-}
-
-.tab-with-circle {
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Add space between text and circle */
-}
-
-#live-circle {
-    display: flex;
-    width: 8px;
-    height: 8px;
-    justify-content: center;
-    align-items: center;
-    flex-shrink: 0;
-    border-radius: 33px;
-    background: #AA4335;
-}
-#live-circle.flash {
-    animation: flash-circle 1s infinite alternate;
-}
-
-@keyframes flash-circle {
-    from { opacity: 1; }
-    to { opacity: 0; }
 }
 
 .graph-header {
@@ -178,45 +99,11 @@ h1, h2 {
     font-weight: 700;
     letter-spacing: 1.6px;
     padding-top: 0;
-    padding-bottom: 20px;
     text-align: left;
     position: relative;
 }
 
-.info-btn {
-    width: 14px;
-    height: 14px;
-    cursor: pointer;
-    border-radius: 50%;
-    background-color: #C9D2D2;
-    padding: 2px;
-    transition: background 0.2s;
-    position: relative;
-}
 
-.popover {
-    position: absolute;
-    left: 25%;
-    top: 70%;
-    margin-left: 8px;
-    display: none;
-    background: #fff;
-    padding: 16px 24px;
-    border-radius: 6px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    z-index: 10;
-    width: 400px;
-    color: #2C353A;
-    font-weight: 100;
-    font-family: "Open Sans";
-    font-size: 12px;
-    line-height: 170%;
-    letter-spacing: 0.12px;
-}
-
-.popover.active {
-    display: block;
-}
 
 .nodata-container {
     position: absolute;
@@ -231,6 +118,8 @@ h1, h2 {
     flex-direction: column;
     z-index: 2;
     font-family: "Open Sans", serif;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 
 .nodata-img {
@@ -252,16 +141,8 @@ h1, h2 {
     display: flex;
     gap: 16px;
     justify-content: center;
-    align-items: stretch;
+    align-items: flex-start;
     flex-wrap: wrap; /* allow wrapping on very small screens */
-    margin-top: 16px;
-}
-
-/* Make derived metric containers smaller so three can fit side-by-side */
-.derived-row .derived-container {
-    min-width: 220px;
-    max-width: 420px;
-    box-sizing: border-box;
 }
 
 /* Top row: keep the two main charts side-by-side */
@@ -272,13 +153,15 @@ h1, h2 {
     align-items: flex-start;
     width: 100%;
     box-sizing: border-box;
+    flex-wrap: wrap;
 }
 
-/* When containers are inside .top-row make them take about half the available width so they sit side-by-side */
-.top-row .container {
-    width: calc(50% - 8px);
-    min-width: 280px; /* allow stacking on narrow screens */
-    max-width: 620px;
+.top-row .container,
+.derived-row .container {
+    flex: 1;
+    min-width: 280px;
+    max-width: 400px;
+    box-sizing: border-box;
 }
 
 .error-message {
@@ -290,16 +173,142 @@ h1, h2 {
     border: 1px solid #f5c6cb;
 }
 
+/* Pressure trend icon */
+.pressure-trend-icon {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.sensor-value-display {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    width: 100%;
+    font-family: "Open Sans", serif;
+    align-items: center;
+}
+
+.rain-icon-display {
+    width: 100%;
+}
+
+.custom-graph-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: center;
+    gap: 16px;
+    padding: 16px;
+    border-radius: 8px;
+    background: #ECF1F1;
+    flex: 1;
+    min-width: 280px;
+    max-width: 400px;
+    box-sizing: border-box;
+    min-height: 180px;
+}
+
+/* Custom sensor display styles */
+.custom-sensor-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* New rules start here */
+.derived-row .air-quality-combined-chart {
+    display: flex;
+    flex-direction: row; /* Arrange children horizontally */
+    align-items: center; /* Vertically align items in the center */
+    justify-content: space-around; /* Distribute space between items */
+    gap: 16px; /* Space between sections */
+    flex: 1 1 100%; /* take full width */
+    max-width: none; /* override max-width */
+}
+
+.air-quality-section {
+    flex: 1; /* Allow it to take available space */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px; /* Add some padding */
+}
+
+.chart-section {
+    flex: 2; /* Allow chart to take more space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px; /* Add some padding */
+    position: relative; /* For the nodata container */
+    width: 100%;
+}
+
+/* Adjust graph-header within these sections if needed */
+.air-quality-section .graph-header,
+.chart-section .graph-header {
+    padding-bottom: 10px; /* Reduce padding if needed */
+}
+/* New rules end here */
+
+.progress-bar-container {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+progress {
+    width: 100%;
+    height: 8px;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 10px;
+}
+
+progress::-webkit-progress-bar {
+    background-color: #DAE3E3;
+    border-radius: 10px;
+}
+
+progress::-webkit-progress-value {
+    background-color: #008184;
+    border-radius: 10px;
+}
+
+.dynamic-icon {
+    font-size: 3em;
+}
+
+
+
+/* Air Quality Display */
+.air-quality-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%; /* Take full height of container */
+}
+
+.air-quality-icon {
+    font-size: 3em; /* Larger emoji */
+    margin-bottom: 5px;
+}
+
+.air-quality-label {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
 
 /*
  * Responsive design
  */
-
-@media (max-width: 1200px) {
-    .tab-content.active {
-        flex-direction: column;
-    }
-}
 
 @media (max-width: 768px) {
     .arduino-text {
@@ -307,27 +316,7 @@ h1, h2 {
     }
 
     .arduino-logo {
-        height: 20px;
+        height: 16px;
         width: auto;
-    }
-}
-
-@media (max-width: 980px) {
-    .derived-row .derived-container {
-        width: 100%;
-        min-width: unset;
-        max-width: unset;
-    }
-}
-
-@media (max-width: 980px) {
-    .top-row {
-        flex-wrap: wrap;
-    }
-
-    .top-row .container {
-        width: 100%;
-        min-width: unset;
-        max-width: unset;
     }
 }

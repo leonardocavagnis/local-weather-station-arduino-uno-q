@@ -54,6 +54,10 @@ def record_sensor_samples(celsius: float, humidity: float, pressure: float, lux:
         return
 
     # If data from sketch is 0, it means it's a placeholder. Let's randomize it.
+    if celsius == 0.0:
+        celsius = round(random.uniform(15.0, 30.0), 2)
+    if humidity == 0.0:
+        humidity = round(random.uniform(40.0, 90.0), 2)
     if pressure == 0.0:
         pressure = round(random.uniform(980.0, 1030.0), 2)
     if lux == 0.0:
